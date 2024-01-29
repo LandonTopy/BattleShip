@@ -1,12 +1,12 @@
-import java.util.Scanner;
+
 public class Board {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
         Board board = new Board();
     }
-    private String [][] squares = new String [10][10];
+    private String [][] squares ;
 
     public Board(){
+        squares = new String [10][10];
         for (int r = 0; r < squares.length; r++) {
             for (int c = 0; c < squares[0].length; c++) {
                 squares[r][c] = "-";
@@ -25,29 +25,49 @@ public class Board {
         return temp;
     }
 
-    public boolean addShip(int row, int col, int len, boolean horizontal){
-        boolean clear = true;
+    public boolean addShip(int row, int col, int len, boolean horizontal) {
         boolean done = false;
-        if (horizontal){
-            if(col+len < 10){
-                for(int i = 0; i<len; i++){
-                    if(squares[row][col+i] == "-"){
-                        
-                    }
-                }
-                for(int i = 0; i<len; i++){
-                    col += i;
-                    squares[row][col] = "b";
-                }
+        boolean clear = true;
+        int temp = col;
+        if (horizontal) {
+            if(col+len>10){
+                return done;
             }
-        } else if(row+len<= 10){
-                for(int i = 0; i<len; i++){
-                    row += i;
+            for (int i = 0; i < len; i++) {
+                if (!squares[row][col].equals("-")) {
+                    clear = false;
+                }
+                col++;
+            }
+            col = temp;
+            if (clear) {
+                for (int i = 0; i < len; i++) {
                     squares[row][col] = "b";
+                    col++;
                 }
                 done = true;
             }
-        return done;
+        } else {
+            if(col+len>10){
+                return done;
+            }
+            temp = row;
+            for (int i = 0; i < len; i++) {
+                if (!squares[row][col].equals("-")) {
+                    clear = false;
+                }
+                row++;
+            }
+            row = temp;
+            if (clear) {
+                for (int i = 0; i < len; i++) {
+                    squares[row][col] = "b";
+                    row++;
+                }
+                done = true;
+
+            }
+        }return done;
     }
     public boolean foundShip(int len){
         boolean done = false;
